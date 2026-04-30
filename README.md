@@ -7,31 +7,6 @@
 
 ---
 
-## Table of Contents
-
-| Section | Description |
-|---------|-------------|
-| [Vision & Core Philosophy](#vision--core-philosophy) | The 6 foundational principles behind every architectural decision |
-| [Core Application Type](#core-application-type) | What SONARA is, what it is not, and what it must match |
-| [Audio Hardware Support](#audio-hardware-support) | Full hardware compatibility matrix |
-| [Audio Interface Implementation](#audio-interface-implementation) | I/O feature requirements |
-| [Control Surface Support](#control-surface-support) | MIDI, MPE, Mackie, HUI, Stream Deck |
-| [Audio Engine Architecture](#audio-engine-architecture) | C++/JUCE core, real-time safety, plugin formats |
-| [Full DAW Feature Absorption Matrix](#full-daw-feature-absorption-matrix) | FL Studio, Ableton, Studio One, Logic, Pro Tools, Reason, Cubase/Nuendo, Reaper, Bitwig |
-| [AI Tool Absorption Matrix](#ai-tool-absorption-matrix) | Synthesizer V, Melodyne, iZotope RX, Ozone, Vocoflex, Lalal.ai, Kontakt |
-| [ORPHEUS AI Architecture](#orpheus-ai-architecture) | Sub-agent roster, inference modes, NLI routing |
-| [ORPHEUS Full Feature List](#orpheus-full-feature-list) | All 13 capability categories |
-| [ORPHEUS Command Examples](#orpheus-command-examples) | Natural language commands and expected behaviors |
-| [Stock Plugin Suite](#stock-plugin-suite) | Instruments, mixing plugins, AI plugins |
-| [Extended Feature Specifications](#extended-feature-specifications) | Spatial audio, post-production, collaboration, notation, live performance |
-| [Global Tech Stack](#global-tech-stack) | Full implementation technology table |
-| [End-to-End Workflow](#end-to-end-workflow) | 10-step production lifecycle |
-| [CodeSpring Implementation Roadmap](#codespring-implementation-roadmap) | 6-phase build plan with deliverables |
-| [Target Product Goal](#target-product-goal) | What SONARA replaces, what ORPHEUS becomes |
-| [Deep Dive Documents](#deep-dive-documents) | All internal spec and architecture files |
-
----
-
 ## Vision & Core Philosophy
 
 SONARA is the apex desktop audio environment for SAMPLESOCIETY. It is designed as a standalone, natively compiled, high-performance Digital Audio Workstation that absorbs the entire modern music production lifecycle into a single organism.
@@ -49,360 +24,95 @@ Its identity is not built around "just hosting plugins" — its identity is buil
 
 ---
 
-## Core Application Type
+## The Ultimate Capability Manifest
 
-SONARA is a **fully native desktop DAW application** built for professional audio production on Windows and macOS.
+The following section explicitly details every single capability absorbed from the industry's leading DAWs and AI tools. For each source, we list what it can do, how SONARA matches that baseline, and how ORPHEUS AI elevates it into an intelligent workflow.
 
-### SONARA is NOT:
-- A browser-based DAW
-- An Electron-only wrapper application
-- A simple plugin host shell
-- A cloud-only AI platform
+### 1. DAW Feature Absorption
 
-### SONARA MUST operate with the performance and depth of:
+**Ableton Live Capabilities Absorbed:**
+Ableton Live is known for its non-linear Session View, allowing users to launch clips out of order, warp audio to fit the tempo in real-time, build complex instrument and effect racks with macro controls, and trigger follow actions for generative sequencing. It also features robust MPE support and Ableton Link for network tempo synchronization.
+- **SONARA Base Implementation:** SONARA includes a full clip-launch environment parallel to the linear timeline, an advanced multi-algorithm warp engine (Rhythmic, Tonal, Complex), a modular rack architecture with parallel chain routing, a universal macro abstraction system, a rule-trigger engine for follow actions, full MPE editing, and native Ableton Link support.
+- **ORPHEUS AI Enhancements:** ORPHEUS can generate live performance sets and adaptive backing tracks in Session View. It provides phrase-aware time stretching that reduces artifacts, AI-generated layered sound design racks, intelligent macro assignment based on acoustic goals, and adaptive sequencing logic that responds to the performer.
 
-| Reference DAW | Key Capability Absorbed |
-|:---|:---|
-| Ableton Live | Session View, Warping, Follow Actions, MPE |
-| Image-Line FL Studio | Piano Roll, Pattern Workflow, Per-Note Expression |
-| Avid Pro Tools | Recording Reliability, Playlist Comping, Post-Production |
-| Apple Logic Pro | Smart Controls, Flex Time, Score Editor, Stock Plugins |
-| PreSonus Studio One | ARA Workflow, Project Page, Scratch Pads, Take Comping |
-| Steinberg Cubase / Nuendo | Expression Maps, Chord Track, VariAudio, ADR, Surround |
-| Cockos REAPER | Scripting API, Deep Customization, Lightweight Efficiency |
-| Bitwig Studio | Modulation System, Hybrid Devices, Per-Note Expression |
-| Reason Studios Reason | Virtual Rack, Cable Routing, Combinators |
+**Image-Line FL Studio Capabilities Absorbed:**
+FL Studio is renowned for its ultra-fast, GPU-accelerated piano roll, slide notes, ghost notes across tracks, pattern-based workflow, chord stamps, strum tools, and deep per-note expression capabilities.
+- **SONARA Base Implementation:** SONARA features a GPU-accelerated piano roll engine with a universal pitch slide system, cross-track ghost rendering, harmonic note coloring, a hybrid clip-pattern system, a native chord generation engine, humanized timing tools, controlled randomizers, and quick-draw MIDI sequencing.
+- **ORPHEUS AI Enhancements:** ORPHEUS provides AI-assisted melody generation, genre-aware glide shaping, harmonic collision analysis for ghost notes, emotional color mapping, AI arrangement building from patterns, advanced reharmonization and voice leading for chords, a guitar realism system for strumming, intelligent mutation for variation generation, and emotion-aware phrasing.
 
-### Platform Requirements
+**Apple Logic Pro Capabilities Absorbed:**
+Logic Pro excels in Smart Controls for macro abstraction, Flex Time for elastic audio, Flex Pitch for vocal tuning, unified automation lanes, dynamic CPU optimization, a massive stock plugin suite, a full Score Editor, the AI Drummer track, and the Environment for visual MIDI routing.
+- **SONARA Base Implementation:** SONARA includes a macro abstraction system, an elastic timing engine, pitch blob editing, unified automation lanes, a dynamic resource manager, a native DSP suite, a full notation environment, an AI drummer engine, and visual MIDI routing.
+- **ORPHEUS AI Enhancements:** ORPHEUS learns parameter mapping for Smart Controls, applies groove-aware timing correction, provides emotion-preserving vocal tuning, automatically generates automation curves, balances CPU load intelligently, adapts plugin presets contextually, generates standard music notation and orchestrations, models specific drummer personalities, and builds AI-generated MIDI processing chains.
 
-The application must install locally and run as a native executable on both **Windows** and **macOS**, with all project files fully cross-platform compatible. Core capabilities include low-latency real-time audio processing, professional multi-track recording, external hardware integration, advanced plugin hosting (VST3, AU, CLAP, ARA2), comprehensive MIDI and MPE device support, high-performance DSP processing, GPU acceleration for UI rendering and specific DSP tasks, hybrid AI inference (local on-device plus cloud offloading), spatial audio (Dolby Atmos, binaural), video sync for post-production and film scoring, and real-time collaboration capabilities.
+**Avid Pro Tools Capabilities Absorbed:**
+Pro Tools is the industry standard for professional recording reliability, sample-accurate editing, playlist comping, batch crossfades, advanced routing architectures, video sync for post-production, elastic audio, and clip grouping.
+- **SONARA Base Implementation:** SONARA features a rock-solid recording engine, sample-accurate editing, a take management system, a batch fade engine, an advanced mixer architecture, video sync support with SMPTE timecode, a time-stretching engine, and grouped clip management.
+- **ORPHEUS AI Enhancements:** ORPHEUS runs session diagnostics for recording reliability, performs smart cleanup during editing, generates the best vocal comp from multiple takes, applies automatic fade logic, automatically organizes and routes busses, provides AI dialog cleanup and automated ADR, applies phrase-aware stretching, and intelligently groups clips by instrument family.
 
----
+**PreSonus Studio One Capabilities Absorbed:**
+Studio One is known for its deep ARA workflow, native Melodyne integration, unified drag-and-drop system, dedicated mastering Project Page, Scratch Pads for alternate arrangements, take comping, and real-time clip gain.
+- **SONARA Base Implementation:** SONARA features native embedded note editing, an internal pitch engine, a unified drag system, a dedicated mastering workspace, alternate arrangement scratch pads, a take lane system, and real-time gain editing.
+- **ORPHEUS AI Enhancements:** ORPHEUS provides AI vocal correction and timing, emotion-preserving tuning, contextual smart routing on drag-and-drop, an AI mastering assistant, arrangement comparison and scoring for scratch pads, best-take scoring AI, and intelligent vocal leveling.
 
-## Audio Hardware Support
+**Steinberg Cubase / Nuendo Capabilities Absorbed:**
+Cubase and Nuendo are powerful for film scoring and post-production, featuring Expression Maps for orchestral articulations, a Score Editor, a global Chord Track, VariAudio for embedded vocal editing, multi-channel surround sound buses (up to 9.1.6), an ADR system, the MixConsole, the Logical Editor, and Render in Place.
+- **SONARA Base Implementation:** SONARA includes an articulation mapping engine, a notation environment, a harmonic engine, an embedded vocal editor, multi-channel audio buses (7.1, 7.1.4, 9.1.6), an Automated Dialog Replacement workflow, an advanced routing matrix, rule-based MIDI processing, and track freezing/bouncing.
+- **ORPHEUS AI Enhancements:** ORPHEUS automatically selects articulations, generates orchestrations, provides adaptive reharmonization via the Chord Track, applies intelligent vocal correction, performs AI Dolby Atmos spatial mixing, generates speech-to-text markers for ADR, applies AI gain staging, generates MIDI transformations via natural language, and assists in stem preparation.
 
-| Hardware Category | Required Support Level | Notes |
-|:---|:---|:---|
-| USB Audio Interfaces | Full | Class-compliant and custom driver |
-| Thunderbolt Interfaces | Full | Ultra-low latency optimization |
-| PCIe Audio Interfaces | Full | High channel count DSP systems |
-| Aggregate Devices (Mac) | Full | Seamless multi-device clocking |
-| ASIO Drivers (Windows) | Full | Direct hardware access |
-| CoreAudio (macOS) | Full | Native Apple audio framework |
-| WASAPI (Windows) | Full | Modern Windows audio API |
-| MIDI Controllers | Full | Plug-and-play mapping |
-| MPE Controllers | Full | Polyphonic expression (ROLI, LinnStrument, etc.) |
-| Control Surfaces | Full | Extensive protocol support |
-| Motorized Faders | Full | Two-way parameter feedback |
-| External DSP Hardware | Planned | UAD, Antelope, Apogee DSP integration |
-| Digital Consoles | Planned | Large format mixing desk integration |
-| ADAT Devices | Planned | Optical I/O expansion |
-| Dante Audio Networking | Future | Audio over IP (AoIP) for large studio setups |
-| AVB Networking | Future | Audio Video Bridging standard |
+**Cockos REAPER Capabilities Absorbed:**
+REAPER is famous for its lightweight efficiency, deep internal scripting API (Python/Lua), extreme UI customization, item-based editing model, and flexible unlimited routing matrix.
+- **SONARA Base Implementation:** SONARA features modular runtime loading, an internal Python/Lua scripting API, a workspace engine for deep customization, a clip-centric editing model, and an unlimited send/receive matrix.
+- **ORPHEUS AI Enhancements:** ORPHEUS provides AI optimization for efficiency, generates custom Python/Lua scripts for unique workflows based on natural language requests, personalizes UI layouts based on user habits, intelligently organizes clips, and suggests routing configurations.
 
----
+**Bitwig Studio Capabilities Absorbed:**
+Bitwig is celebrated for its universal modulation system, hybrid devices, per-note expression, The Grid modular synthesis environment, Note Expression editing, and the Clip Launcher.
+- **SONARA Base Implementation:** SONARA includes a universal modulation graph, a device abstraction layer, an expression lane engine, a modular synthesis environment, per-note parameter editing, and a session view with follow actions.
+- **ORPHEUS AI Enhancements:** ORPHEUS generates complex modulation mappings, mutates device chains intelligently, maps emotional expression to notes, generates modular synthesis patches, shapes performance expression, and sequences generative clips.
 
-## Audio Interface Implementation
-
-| Feature | Required Implementation | Description |
-|:---|:---|:---|
-| Input Device Selection | Device browser | Clear, unified device selection matrix |
-| Output Device Selection | Device browser | Clear, unified device selection matrix |
-| Sample Rate Switching | Real-time supported | On-the-fly conversion and hardware sync |
-| Buffer Size Adjustment | Adjustable from DAW | Direct control without opening driver panels |
-| Multi-Input Recording | Unlimited | Limited only by hardware and disk speed |
-| Multi-Output Routing | Unlimited | Complex busing and hardware sends |
-| Input Monitoring | Low latency | Direct DAW monitoring with minimal delay |
-| Direct Monitoring Integration | Supported | Hardware-level zero-latency monitoring |
-| Device Hot Swapping | Supported | Plug/unplug interfaces without crashing |
-| Clock Sync Detection | Supported | Automatic internal/external clock resolution |
-| Audio Driver Error Recovery | Automatic | Silent restart of engine on driver dropout |
-| Device Profile Saving | Supported | Save global hardware setups |
-| Per-Project Interface Recall | Supported | Projects remember their specific I/O mapping |
+**Reason Studios Reason Capabilities Absorbed:**
+Reason is iconic for its Virtual Rack, visual cable routing, Combinators for multi-device containers, custom actions, and CV modulation.
+- **SONARA Base Implementation:** SONARA features a modular signal environment, optional visual routing, multi-device containers, a workflow automation system, and control voltage routing.
+- **ORPHEUS AI Enhancements:** ORPHEUS generates modular racks, applies auto-routing logic, builds intelligent plugin chains, creates natural-language macros, and maps AI modulation.
 
 ---
 
-## Control Surface Support
+### 2. AI Tool Absorption
 
-| Hardware / Protocol | Support Level | Notes |
-|:---|:---|:---|
-| MIDI Keyboards | Full | Auto-mapping and scriptable |
-| Pad Controllers | Full | Drum rack and clip launching integration |
-| MPE Controllers | Full | High-resolution multi-dimensional control |
-| Launchpads | Full | Session view and step sequencing |
-| Push-style Controllers | Full | Deep hardware-to-DAW display integration |
-| Mackie Control Protocol | Full | Industry standard transport and faders |
-| HUI Protocol | Full | Legacy professional surface support |
-| Stream Deck | Full | Native plugin for macro and workflow triggers |
-| TouchOSC | Planned | Tablet/mobile custom interfaces |
-| OSC Protocol | Planned | Open Sound Control for advanced networking |
-| EuCon | Future | Avid high-end control surface protocol |
+**Synthesizer V / ACE Studio Capabilities Absorbed:**
+These tools provide state-of-the-art neural vocal synthesis, allowing users to type lyrics and melodies to generate realistic singing, edit phonemes, add breaths, shape emotion curves, edit vibrato, adjust timing, create vocal layers, smooth transitions, manage singer models, and sing in multiple languages.
+- **SONARA Base Implementation:** SONARA includes a neural vocal synthesis engine, an editable phoneme timeline, a breath lane system, an emotion automation graph, a vibrato modulation lane, a syllable timing editor, a harmony stack engine, a transition engine, a voice model manager, a language phoneme engine, and expression curves.
+- **ORPHEUS AI Enhancements:** ORPHEUS generates context-aware singing, automatically corrects pronunciation, generates natural breaths, shapes emotion based on genre, adapts vibrato for realism, applies groove-aware timing, auto-generates harmonies, ensures emotional phrase continuity, blends and morphs AI singers, adapts accents, and injects emotional realism.
 
----
+**Melodyne Capabilities Absorbed:**
+Melodyne is the industry standard for pitch and timing correction, featuring pitch blob editing, polyphonic editing (DNA Direct Note Access), formant editing, timing graph editing, vibrato shaping, and dynamics editing.
+- **SONARA Base Implementation:** SONARA features native note editing, a multi-note editor for polyphonic material, formant lanes, a timing graph editor, vibrato shaping, and amplitude editing.
+- **ORPHEUS AI Enhancements:** ORPHEUS retains emotional pitch during correction, performs harmonic separation, preserves vocal character via formants, applies groove-aware correction, adds human realism to vibrato, levels audio intelligently, and extracts chords for reharmonization.
 
-## Audio Engine Architecture
+**iZotope RX Capabilities Absorbed:**
+RX is the premier audio repair suite, offering De-Noise, De-Click, De-Hum, Spectral Repair with lasso selection, Mouth Click Removal, Clipping Repair, Dialogue Isolation, De-Reverb, De-Plosive, and Ambience Match.
+- **SONARA Base Implementation:** SONARA includes an AI noise reduction engine, spectral click repair, a hum profile engine, a spectrogram editor with lasso selection, an artifact cleaner, clipping restoration, source separation, reverb tail reduction, plosive transient removal, and room tone matching.
+- **ORPHEUS AI Enhancements:** ORPHEUS applies context-aware cleanup, batch restoration, auto hum detection, AI reconstruction of missing frequencies, vocal cleanup automation, dynamic clipping rebuilds, AI voice extraction, room acoustics removal, broadcast-quality vocal cleanup, and seamless edit point blending.
 
-### Core Engine Requirements
+**LANDR / Ozone / Sonible Capabilities Absorbed:**
+These tools provide AI mastering, tonal balance analysis, LUFS targeting, stereo imaging analysis, dynamic compression advising, frequency masking detection, and transparent limiting.
+- **SONARA Base Implementation:** SONARA features a mastering engine, frequency analysis, a loudness engine, stereo imaging tools, a compression advisor, masking detection, and transparent limiting.
+- **ORPHEUS AI Enhancements:** ORPHEUS provides adaptive mastering (Ozone 11 style), reference matching, platform-aware mastering (Spotify -14, Apple -16, YouTube -14, Broadcast -23), spatial enhancement, intelligent balancing (smart:EQ 4 style), dynamic EQ auto-resolution, and true peak compliance (-1 dBTP).
 
-| System | Required Implementation | Description |
-|:---|:---|:---|
-| Language | C++ 20 | Core engine for maximum performance |
-| DSP Framework | JUCE 8 | Industry-standard audio application framework |
-| Audio Threading | Real-time safe | Lock-free, wait-free algorithms |
-| Buffering | Multi-buffer architecture | Optimized for varied block sizes |
-| Plugin Sandbox | Yes | Isolate plugins via IPC to prevent DAW crashes |
-| Low Latency Monitoring | Yes | Direct hardware integration for recording |
-| Offline Rendering | Yes | Faster-than-real-time mixdowns |
-| Multi-Core Rendering | Yes | Intelligent track and bus load distribution |
-| GPU-Assisted Processing | Planned | Offload UI rendering and AI/DSP tasks |
-| Dynamic Resource Allocation | Yes | Disable processing on silent tracks |
-| Sample Accurate Automation | Yes | Frame-perfect parameter modulation |
-| Sample Accurate Editing | Yes | Zero-crossing detection and precise slicing |
-| Plugin Delay Compensation | Yes | Automatic alignment of parallel chains |
-| Freeze/Bounce System | Yes | Render tracks to audio to free resources |
-| Autosave Recovery | Yes | Background state saving without dropouts |
+**Vocoflex Capabilities Absorbed:**
+Vocoflex allows for voice morphing, timbre transfer, gender conversion, and accent adaptation.
+- **SONARA Base Implementation:** SONARA includes a neural morph engine, timbre transformation, formant remapping, and a pronunciation layer.
+- **ORPHEUS AI Enhancements:** ORPHEUS retains emotion during morphing, applies style-aware conversion, ensures natural gender transitions, and shapes AI dialects.
 
-### Plugin Format Support
+**Lalal.ai / RipX / Suno / Udio Capabilities Absorbed:**
+These tools offer multi-band stem splitting, instrument isolation, audio-to-MIDI note extraction, stem manipulation, and text-to-audio full track generation.
+- **SONARA Base Implementation:** SONARA features multi-band source separation (Vocals, Drums, Bass, Other, Piano, Guitar), harmonic separation, audio note mapping, a stem editor, and an audio codec generation engine.
+- **ORPHEUS AI Enhancements:** ORPHEUS performs intelligent stem reconstruction, harmonic rebuilding, performance reconstruction, AI remix assistance, and text-to-audio integration.
 
-| Format | Support Level | Notes |
-|:---|:---|:---|
-| VST3 | Full | Primary plugin format for Windows and macOS |
-| AU (Audio Units) | Full | Native macOS plugin format |
-| CLAP | Full | Modern open-source format with superior multi-threading |
-| ARA2 | Full | Deep integration for pitch/time editors (Melodyne, VocALign) |
-| AAX | Future | Avid Pro Tools format (requires Avid licensing) |
-
-### Advanced Engine Capabilities
-
-| Capability | Description |
-|:---|:---|
-| Neural Network Inference | Real-time and offline execution of AI models (ONNX Runtime / TensorRT) |
-| Spatial Audio / Dolby Atmos | Object-based audio rendering, binaural monitoring, multi-channel busing (7.1.4, 9.1.6) |
-| Video Sync Engine | Frame-accurate video playback with SMPTE timecode support |
-| Unified Modulation System | Advanced per-device and global modulation routing |
-| Real-Time Collaboration | Shared session state over local network or cloud |
-| Time Stretching Engine | Phase vocoder + granular synthesis: Rhythmic (transient-preserving), Tonal (phase-coherent), Complex (polyphonic) |
-| Key & Tempo Analysis | Real-time structural analysis of imported audio, auto-mapping to session grid and Chord Track |
-| Formant Preservation | Independent pitch/formant control to prevent artifacts during extreme transposition |
-
-### Real-Time Safety Constraints
-
-To prevent audio dropouts (glitches/pops), the audio thread MUST adhere to strict real-time constraints at all times:
-
-- **No Memory Allocation**: No `new`, `malloc`, or `std::vector::push_back` on the audio thread.
-- **No Blocking I/O**: No file reading/writing or network requests during `processBlock`.
-- **No Priority Inversion**: Avoid mutexes that might block the audio thread waiting for the UI thread. Use lock-free ring buffers for all UI-to-audio communication.
-- **No System Calls**: Avoid `sleep()`, `printf()`, or any OS-level blocking calls.
-- **Lock-Free Data Structures**: All parameter changes from the UI thread must pass through a lock-free FIFO queue before reaching the audio thread.
-
----
-
-## Full DAW Feature Absorption Matrix
-
-### A. FL Studio Implementation
-
-| FL Studio Feature | SONARA Base Implementation | ORPHEUS Enhancement |
-|:---|:---|:---|
-| Fast Piano Roll | GPU accelerated piano roll engine | AI-assisted MIDI editing and melody generation |
-| Slide Notes | Universal pitch slide system | Genre-aware glide shaping |
-| Ghost Notes | Cross-track ghost rendering | Harmonic collision analysis |
-| Note Coloring | Harmonic/track grouping | Emotional color mapping |
-| Pattern Workflow | Hybrid clip-pattern system | AI arrangement building |
-| Chord Stamps | Chord generation engine | Advanced reharmonization and voice leading |
-| Strum Tool | Humanized timing engine | Guitar realism system |
-| Randomizer | Controlled variation engine | Intelligent mutation and variation generation |
-| Per-Note Expression | MPE/per-note automation | Emotion-aware phrasing |
-| Fast Sequencing | Quick-draw MIDI editing | AI loop generation |
-
-### B. Ableton Live Implementation
-
-| Ableton Feature | SONARA Base Implementation | ORPHEUS Enhancement |
-|:---|:---|:---|
-| Session View | Clip-launch environment | AI live performance generation and adaptive sets |
-| Arrangement View | Linear timeline | AI structural arrangement and transition building |
-| Warping | Advanced warp engine | Phrase-aware time stretching |
-| Audio Stretching | Multi-algorithm engine (Rhythmic, Tonal, Complex) | Artifact reduction AI |
-| Instrument Racks | Rack architecture | AI rack generation and layered sound design |
-| Effect Racks | Parallel chain routing | Auto FX chain building based on sonic goals |
-| Macros | Universal parameter mapping | Intelligent macro assignment |
-| Follow Actions | Rule-trigger engine | Adaptive sequencing and generative logic |
-| MPE Support | Full MPE editing | AI expression generation |
-| Ableton Link | Tempo sync protocol | Real-time live performance sync |
-
-### C. Studio One Implementation
-
-| Studio One Feature | SONARA Base Implementation | ORPHEUS Enhancement |
-|:---|:---|:---|
-| ARA Workflow | Native embedded note editing | AI vocal correction and timing |
-| Melodyne Integration | Internal pitch engine | Emotion-preserving tuning |
-| Drag & Drop | Unified drag system | Contextual smart routing |
-| Project Page | Mastering workspace | AI mastering assistant |
-| Scratch Pads | Alternate arrangements | AI arrangement comparison and scoring |
-| Take Comping | Take lane system | Best-take scoring AI |
-| Clip Gain | Real-time gain editing | AI vocal leveling |
-
-### D. Logic Pro Implementation
-
-| Logic Feature | SONARA Base Implementation | ORPHEUS Enhancement |
-|:---|:---|:---|
-| Smart Controls | Macro abstraction system | AI parameter learning |
-| Flex Time | Elastic timing engine | Groove-aware correction |
-| Flex Pitch | Pitch blob editing | Emotion-preserving tuning |
-| Automation Workflow | Unified automation lanes | Auto automation generation |
-| CPU Optimization | Dynamic resource manager | AI load balancing |
-| Stock Plugins | Native DSP suite | Adaptive presets |
-| Score Editor | Full notation environment | AI orchestration and standard music notation |
-| Drummer Track | AI drummer engine | Drummer personality modeling |
-| Environment | Visual MIDI routing | AI-generated MIDI processing chains |
-
-### E. Pro Tools Implementation
-
-| Pro Tools Feature | SONARA Base Implementation | ORPHEUS Enhancement |
-|:---|:---|:---|
-| Recording Reliability | Professional recording engine | Session diagnostics |
-| Audio Editing | Sample-accurate editing | Smart cleanup |
-| Playlist Comping | Take management system | AI comp generation |
-| Crossfades | Batch fade engine | Automatic fade logic |
-| Routing | Advanced mixer architecture | Auto bus organization |
-| Post Production | Video sync support | AI dialog cleanup and automated ADR |
-| Elastic Audio | Time-stretching engine | Phrase-aware stretching |
-| Clip Groups | Grouped clip management | AI grouping by instrument family |
-
-### F. Reason Implementation
-
-| Reason Feature | SONARA Base Implementation | ORPHEUS Enhancement |
-|:---|:---|:---|
-| Virtual Rack | Modular signal environment | AI modular generation |
-| Cable Routing | Optional visual routing | Auto-routing logic |
-| Combinators | Multi-device containers | AI chain building |
-| Custom Actions | Workflow automation system | Natural-language macros |
-| CV Modulation | Control voltage routing | AI modulation mapping |
-
-### G. Cubase / Nuendo Implementation
-
-| Cubase/Nuendo Feature | SONARA Base Implementation | ORPHEUS Enhancement |
-|:---|:---|:---|
-| Expression Maps | Articulation mapping engine | AI articulation selection |
-| Score Editor | Notation environment | AI orchestration and standard music notation |
-| Chord Track | Harmonic engine | Adaptive reharmonization |
-| VariAudio | Embedded vocal editor | Intelligent vocal correction |
-| Surround Sound | Multi-channel audio buses (7.1, 7.1.4, 9.1.6) | AI Dolby Atmos spatial mixing |
-| ADR System | Automated Dialog Replacement workflow | AI speech-to-text marker generation |
-| MixConsole | Advanced routing matrix | AI gain staging and bus organization |
-| Logical Editor | Rule-based MIDI processing | AI-generated MIDI transformations |
-| Render in Place | Track freezing and bouncing | AI-assisted stem preparation |
-
-### H. Reaper Implementation
-
-| Reaper Feature | SONARA Base Implementation | ORPHEUS Enhancement |
-|:---|:---|:---|
-| Lightweight Efficiency | Modular runtime loading | AI optimization |
-| Scripting | Internal scripting API (Python/Lua) | AI-generated scripts for custom workflows |
-| Deep Customization | Workspace engine | Personalized layouts based on user habits |
-| Item-Based Editing | Clip-centric editing model | AI clip organization |
-| Flexible Routing | Unlimited send/receive matrix | AI routing suggestions |
-| ReaScript | Full scripting environment | ORPHEUS-generated automation scripts |
-
-### I. Bitwig Studio Implementation
-
-| Bitwig Feature | SONARA Base Implementation | ORPHEUS Enhancement |
-|:---|:---|:---|
-| Modulation System | Universal modulation graph | AI modulation generation |
-| Hybrid Devices | Device abstraction layer | AI chain mutation |
-| Per-Note Expression | Expression lane engine | Emotional expression mapping |
-| The Grid | Modular synthesis environment | AI patch generation |
-| Note Expression | Per-note parameter editing | AI performance shaping |
-| Clip Launcher | Session view with follow actions | AI generative clip sequencing |
-
----
-
-## AI Tool Absorption Matrix
-
-### A. Synthesizer V / ACE Studio Features (Vocal Synthesis)
-
-| Feature | SONARA Base Implementation | ORPHEUS Enhancement |
-|:---|:---|:---|
-| AI Singing | Neural vocal synthesis | Context-aware singing generation |
-| Phoneme Editing | Editable phoneme timeline | Auto pronunciation correction |
-| Breath Editing | Breath lane system | Natural breath generation |
-| Emotion Curves | Emotion automation graph | Genre-aware emotion shaping |
-| Vibrato Editing | Vibrato modulation lane | Adaptive realism |
-| Timing Editing | Syllable timing editor | Groove-aware timing |
-| Vocal Layers | Harmony stack engine | Auto harmony generation |
-| Vocal Transition Smoothing | Transition engine | Emotional phrase continuity |
-| Singer Management | Voice model manager | AI singer blending and morphing |
-| Multilingual Singing | Language phoneme engine | Accent adaptation |
-| Dynamic Expression | Expression curves | Emotional realism |
-
-### B. Melodyne Features (Pitch/Timing Correction)
-
-| Feature | SONARA Base Implementation | ORPHEUS Enhancement |
-|:---|:---|:---|
-| Pitch Blobs | Native note editing | Emotional pitch retention |
-| Polyphonic Editing | Multi-note editor | Harmonic separation AI |
-| Formant Editing | Formant lanes | Character preservation |
-| Timing Editing | Timing graph editor | Groove-aware correction |
-| Vibrato Editing | Vibrato shaping | Human realism |
-| Dynamics Editing | Amplitude editing | AI leveling |
-| DNA Direct Note Access | Polyphonic audio-to-MIDI | Chord extraction and reharmonization |
-
-### C. iZotope RX Features (Audio Repair)
-
-| Feature | SONARA Base Implementation | ORPHEUS Enhancement |
-|:---|:---|:---|
-| De-Noise | AI noise reduction | Context-aware cleanup |
-| De-Click | Spectral click repair | Batch restoration |
-| De-Hum | Hum profile engine | Auto hum detection |
-| Spectral Repair | Spectrogram editor with lasso selection | AI reconstruction of missing frequencies |
-| Mouth Click Removal | Artifact cleaner | Vocal cleanup automation |
-| Clipping Repair | Clipping restoration | Dynamic rebuild |
-| Dialogue Isolation | Source separation | AI voice extraction |
-| De-Reverb | Reverb tail reduction | Room acoustics removal |
-| De-Plosive | Plosive transient removal | Broadcast-quality vocal cleanup |
-| Ambience Match | Room tone matching | Seamless edit point blending |
-
-### D. LANDR / Ozone / Sonible Features (Mixing & Mastering)
-
-| Feature | SONARA Base Implementation | ORPHEUS Enhancement |
-|:---|:---|:---|
-| AI Mastering | Mastering engine | Adaptive mastering (Ozone 11 style) |
-| Tonal Balance | Frequency analysis | Reference matching |
-| LUFS Targeting | Loudness engine | Platform-aware mastering (Spotify -14, Apple -16, YouTube -14, Broadcast -23) |
-| Stereo Analysis | Stereo imaging tools | Spatial enhancement |
-| Dynamic Analysis | Compression advisor | Intelligent balancing (smart:EQ 4 / Sonible style) |
-| Frequency Masking | Masking detection | Dynamic EQ auto-resolution |
-| Limiter Intelligence | Transparent limiting | True peak compliance (-1 dBTP) |
-
-### E. Vocoflex Features (Voice Morphing)
-
-| Feature | SONARA Base Implementation | ORPHEUS Enhancement |
-|:---|:---|:---|
-| Voice Morphing | Neural morph engine | Emotion retention |
-| Timbre Transfer | Timbre transformation | Style-aware conversion |
-| Gender Conversion | Formant remapping | Natural transitions |
-| Accent Adaptation | Pronunciation layer | AI dialect shaping |
-
-### F. Lalal.ai / RipX / Suno / Udio Features (Generation & Separation)
-
-| Feature | SONARA Base Implementation | ORPHEUS Enhancement |
-|:---|:---|:---|
-| Stem Splitting | Multi-band source separation (Vocals, Drums, Bass, Other, Piano, Guitar) | Intelligent reconstruction |
-| Instrument Isolation | Source separation | Harmonic rebuilding |
-| Note Extraction | Audio note mapping | Performance reconstruction |
-| Stem Manipulation | Stem editor | AI remix assistance |
-| Full Track Generation | Audio codec generation | Text-to-audio integration (Suno/Udio style) |
-
-### G. Kontakt / Omnisphere / EastWest / Superior Drummer Features
-
-| Feature | SONARA Base Implementation | ORPHEUS Enhancement |
-|:---|:---|:---|
-| Multisampling | Advanced sampler engine | AI articulation selection |
-| Round Robins | Variation system | Human realism |
-| Velocity Layers | Dynamic sample engine | Emotion-aware dynamics |
-| Legato Transitions | Transition engine | Phrase-aware rendering |
-| Drum Humanization | Groove realism | Drummer personality modeling |
-| Orchestral Articulations | Articulation maps | AI orchestration |
-| Hybrid Synthesis | Multi-engine synths | AI sound design |
+**Kontakt / Omnisphere / EastWest / Superior Drummer Capabilities Absorbed:**
+These are industry-leading samplers and virtual instruments featuring deep multisampling, round robins, velocity layers, legato transitions, drum humanization, orchestral articulations, and hybrid synthesis.
+- **SONARA Base Implementation:** SONARA includes an advanced sampler engine, a variation system, a dynamic sample engine, a transition engine, groove realism, articulation maps, and multi-engine synths.
+- **ORPHEUS AI Enhancements:** ORPHEUS automatically selects articulations, injects human realism, maps emotion-aware dynamics, renders phrase-aware legato, models drummer personalities, generates orchestrations, and performs AI sound design.
 
 ---
 
@@ -428,171 +138,6 @@ ORPHEUS is not a single model. It is an orchestrated swarm of specialized sub-ag
 ### Inference Strategy
 
 ORPHEUS uses a hybrid local/cloud inference strategy. Low-latency tasks (EQ analysis, pitch correction, NLI routing) run locally via ONNX Runtime or TensorRT. Heavy compute tasks (stem separation, full track generation, large vocal synthesis models) are offloaded to cloud inference when a local GPU with sufficient VRAM is not available. The system automatically detects available hardware and routes accordingly, with a user-configurable preference for privacy-first local-only operation.
-
-### ORPHEUS IPC Bridge
-
-```
-User Text/Voice Input
-        │
-        ▼
-ORPHEUS-NLI (Intent Parser)
-        │
-        ▼
-Sub-Model Router ──────────────────────────────────────────────────────┐
-        │                                                               │
-   Local Inference                                              Cloud Inference
-   (ONNX / TensorRT)                                           (FastAPI / PyTorch)
-        │                                                               │
-        └───────────────────────────────────────────────────────────────┘
-                                    │
-                                    ▼
-                        DAW Engine IPC Bridge
-                                    │
-                                    ▼
-                        AudioProcessorGraph (C++ / JUCE)
-```
-
----
-
-## ORPHEUS Full Feature List
-
-ORPHEUS MUST SUPPORT the following capability categories:
-
-| Capability Category | Features |
-|:---|:---|
-| DAW Control | Routing, track creation, fades, plugin loading, bussing, session organization |
-| MIDI Intelligence | Melody generation, harmony, orchestration, voice leading, chord progression generation |
-| Vocal Intelligence | Singing synthesis, harmonies, tuning, timing editing, breath generation |
-| Mix Intelligence | EQ suggestions, frequency masking resolution, balancing, dynamic control |
-| Arrangement Intelligence | Song structure generation, transition building, riser automation, fill generation |
-| Performance Intelligence | Human realism, groove extraction, articulation switching, drummer personality |
-| Workflow Automation | Macro chains, reusable workflows, custom script generation (Python/Lua) |
-| Audio Repair | Cleanup, restoration, de-noising, de-clicking, de-humming, spectral reconstruction |
-| Session Management | Organization, naming, coloring, template generation, bus routing |
-| Plugin Intelligence | Plugin parameter manipulation, smart macro assignment, preset generation |
-| Memory Systems | User workflow learning, personalized UI adaptation, session history |
-| Educational Assistance | Explain edits, music theory analysis, mix breakdowns, production tutorials |
-| Live Assistance | Real-time AI accompaniment, adaptive backing tracks, live looping intelligence |
-
----
-
-## ORPHEUS Command Examples
-
-| Command | Expected System Behavior |
-|:---|:---|
-| *"Tune these vocals naturally."* | Pitch correction applied while preserving emotional formants and vibrato. |
-| *"Make this sound cinematic."* | Adds orchestral layers, applies spatial depth/reverb, and widens the stereo image. |
-| *"Generate neo-soul chords."* | Creates an advanced harmonic progression with 7ths, 9ths, and specific voice leading. |
-| *"Fix mud in the mix."* | Analyzes frequency masking in the 200–500 Hz range and applies dynamic EQ correction. |
-| *"Replace these strings with realistic strings."* | Extracts MIDI from audio and reconstructs the performance using high-quality multisamples with proper articulations. |
-| *"Create harmonies."* | Analyzes the lead vocal and chord track to generate 3-part backing harmonies. |
-| *"Humanize these drums."* | Applies micro-timing shifts and velocity variations based on a modeled drummer personality. |
-| *"Master this for Spotify."* | Applies limiting, EQ, and compression to hit -14 LUFS with -1 dBTP true peak. |
-| *"Organize this session."* | Automatically routes tracks to busses, applies standard naming conventions, and color-codes by instrument group. |
-| *"Extract the vocals from this sample."* | Runs the AI stem splitter to isolate the vocal track with minimal artifacts. |
-| *"Write a chord progression in the style of D'Angelo."* | Generates a neo-soul harmonic progression with characteristic extensions and voice leading. |
-| *"Transcribe this audio to MIDI."* | Converts audio performance to editable MIDI notes with velocity and timing preserved. |
-| *"Fix the noise in this recording."* | Profiles the noise floor and applies spectral subtraction to remove background noise. |
-| *"Make this mix wider."* | Applies mid/side processing and binaural widening while preserving mono compatibility. |
-| *"Generate a drum fill for this transition."* | Analyzes the groove and generates a contextually appropriate fill leading into the next section. |
-
----
-
-## Stock Plugin Suite
-
-### A. Instruments
-
-| Plugin | Function | Description |
-|:---|:---|:---|
-| SONARA Synth One | Wavetable synth | High-resolution wavetable engine with deep modulation |
-| SONARA Analog | Analog synth | Virtual analog modeling with non-linear drift |
-| SONARA FM | FM synth | 6-operator frequency modulation synthesizer |
-| SONARA Granular | Granular synthesis | Real-time audio mangling and texture generation |
-| SONARA Orchestra | Orchestral workstation | Deep-sampled strings, brass, and woodwinds |
-| SONARA Drums | Drum workstation | Acoustic and electronic drum kits with built-in sequencing |
-| SONARA Bass | Bass engine | Hybrid physical modeling and sample-based bass |
-| SONARA Piano | Piano engine | Modeled acoustic grand and upright pianos |
-| SONARA Sampler | Deep sampler | Multi-layer, round-robin capable sampling engine |
-| SONARA Choir | Choir engine | Symphonic and intimate vocal ensembles |
-
-### B. Mixing Plugins
-
-| Plugin | Function | Description |
-|:---|:---|:---|
-| SONARA EQ | Dynamic EQ | Transparent and linear phase equalization |
-| SONARA Comp | Compressor | VCA, FET, and Opto circuit models |
-| SONARA MB | Multiband processing | Precise crossover multi-band compression/expansion |
-| SONARA Verb | Reverb | Algorithmic and convolution reverb engine |
-| SONARA Delay | Delay | Tape, analog, and digital delay algorithms |
-| SONARA Tape | Tape saturation | Authentic tape machine emulation with wow/flutter |
-| SONARA Spatial | Stereo imaging | Mid/Side processing and binaural widening |
-| SONARA Console | Console emulation | Classic mixing desk summing and crosstalk |
-| SONARA Transient | Transient shaper | Attack/sustain control for drums and percussion |
-| SONARA Gate | Noise gate | Intelligent gating with sidechain filtering |
-
-### C. AI Plugins (ORPHEUS Powered)
-
-| Plugin | Function | Description |
-|:---|:---|:---|
-| ORPHEUS Mix | AI mixing | Intelligent track balancing and masking resolution |
-| ORPHEUS Master | AI mastering | Target-based mastering chains |
-| ORPHEUS Vocal | Vocal cleanup | Automated de-breath, de-click, and leveling |
-| ORPHEUS Harmony | Harmony generation | Real-time backing vocal generation |
-| ORPHEUS Arrange | Arrangement generation | Structural block building and transition fills |
-| ORPHEUS Performer | Human realism | MIDI micro-timing and velocity humanization |
-| ORPHEUS Replace | Instrument replacement | Audio-to-MIDI and sound substitution |
-| ORPHEUS Stem | Stem splitting | High-fidelity audio source separation |
-
----
-
-## Extended Feature Specifications
-
-### Spatial Audio & Immersive Production
-
-| Feature | Description |
-|:---|:---|
-| Dolby Atmos Renderer | Native object-based audio renderer with binaural monitoring |
-| 3D Panner | Visual 3D panning interface for object-based mixing |
-| Binaural Monitoring | Headphone-based monitoring of immersive mixes |
-| Multi-Channel Busing | Support for 7.1, 7.1.4, 9.1.6 and custom channel configurations |
-| ADM Export | Audio Definition Model file export for broadcast delivery |
-
-### Video & Post-Production
-
-| Feature | Description |
-|:---|:---|
-| Video Track | Import and playback of video files (H.264, ProRes, etc.) |
-| SMPTE Timecode | Frame-accurate synchronization with external video systems |
-| ADR System | Automated Dialog Replacement with cue sheet generation |
-| Foley Workspace | Dedicated workspace for sound design and foley |
-| Loudness Compliance | Broadcast loudness standards (EBU R128, ATSC A/85) |
-
-### Collaboration & Cloud
-
-| Feature | Description |
-|:---|:---|
-| Real-Time Collaboration | Multiple users editing the same session simultaneously |
-| Cloud Project Sync | Automatic backup and version history to cloud storage |
-| Stem Sharing | Export and share stems directly from the DAW |
-| Session Comments | Timestamped comment system for remote feedback |
-
-### Notation & Score
-
-| Feature | Description |
-|:---|:---|
-| Score Editor | Full music notation editor integrated into the DAW |
-| MIDI-to-Notation | Automatic conversion of MIDI to readable sheet music |
-| Notation Export | Export to MusicXML, PDF, and other notation formats |
-| Playback from Score | Direct audio playback from the notation editor |
-
-### Live Performance
-
-| Feature | Description |
-|:---|:---|
-| Setlist Manager | Organize and sequence songs for live performance |
-| Ableton Link | Sync tempo with other applications and hardware |
-| MIDI Clock Output | Sync external hardware sequencers and drum machines |
-| Live Looping | Real-time audio and MIDI loop recording and overdubbing |
 
 ---
 
@@ -682,38 +227,6 @@ For the CodeSpring orchestrator, follow these phases to build the SONARA archite
 
 ---
 
-## Target Product Goal
-
-SONARA should replace the need for:
-
-| Replaced Tool Category | Examples |
-|:---|:---|
-| Multiple DAWs | Ableton, FL Studio, Logic, Pro Tools, Cubase |
-| Multiple AI generators | Suno, Udio, ACE Studio, Synthesizer V |
-| Multiple vocal tools | Melodyne, Auto-Tune, VocALign |
-| Multiple mastering tools | LANDR, Ozone, smart:EQ |
-| Multiple orchestration suites | Kontakt, EastWest, Spitfire |
-| Multiple stem separation tools | Lalal.ai, RipX, Demucs |
-| Multiple harmonic plugins | Scaler, Captain Chords |
-| Multiple workflow automation systems | Custom scripts, macros, third-party utilities |
-
-ORPHEUS should function as:
-
-| Role | Capability |
-|:---|:---|
-| Producer | Generates arrangements, chord progressions, and song structures |
-| Engineer | Mixes, masters, repairs audio, and manages routing |
-| Arranger | Builds transitions, fills, and structural blocks |
-| Assistant | Executes natural language commands across all DAW functions |
-| Orchestrator | Generates and arranges orchestral parts with correct articulations |
-| Vocal Editor | Tunes, synthesizes, harmonizes, and repairs vocal performances |
-| Workflow Operator | Automates repetitive tasks via scripts and macro chains |
-| Intelligent DAW Controller | Learns user habits and adapts the interface over time |
-
-**Inside ONE unified desktop production environment.**
-
----
-
 ## Deep Dive Documents
 
 This repository contains detailed research, architecture, and specification documents. Use the links below to navigate directly to specific areas of the SONARA DAW platform.
@@ -733,14 +246,6 @@ This repository contains detailed research, architecture, and specification docu
 * [**features/mixer_spec.md**](./features/mixer_spec.md) — Routing matrix, busing, sidechain, and AI gain staging.
 * [**features/vocal_engine_spec.md**](./features/vocal_engine_spec.md) — Pitch blobs, formant editing, phoneme timeline, and neural synthesis.
 * [**features/arrangement_view_spec.md**](./features/arrangement_view_spec.md) — Comping, clip gain, take lanes, and AI structural generation.
-
-### 📋 Domain Documentation
-* [**docs/01_Core_Features.md**](./docs/01_Core_Features.md) — Core identity, platform requirements, and hardware support.
-* [**docs/02_Audio_Engine.md**](./docs/02_Audio_Engine.md) — Engine architecture, real-time safety, and plugin formats.
-* [**docs/03_DAW_Absorption.md**](./docs/03_DAW_Absorption.md) — Full DAW feature absorption matrix across all reference DAWs.
-* [**docs/04_AI_Absorption.md**](./docs/04_AI_Absorption.md) — AI tool absorption matrix across all reference AI tools.
-* [**docs/05_ORPHEUS_Features.md**](./docs/05_ORPHEUS_Features.md) — ORPHEUS capability categories and command examples.
-* [**docs/06_Stock_Plugins.md**](./docs/06_Stock_Plugins.md) — Complete stock instrument and effects plugin suite.
 
 ### 🔌 Extensibility
 * [**plugins/plugin_dev_guide.md**](./plugins/plugin_dev_guide.md) — JUCE templates and the ORPHEUS integration API (`IOrpheusControllable`).
